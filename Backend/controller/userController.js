@@ -6,6 +6,7 @@ const userAttendance= async (req, res) => {
     // Yoklama İşlemini gerçekleştiren fonksiyon
     const { studentIndex } = req.body; // Öğrenci numarasını al
     const spreadsheetId = process.env.SPREAD_SHEET_ID  // Google Sheets belge kimliği
+    console.log("studentIndex", studentIndex);
 
     try {
         const { client, googleSheets } = await googleSheetsAuth(); // Yetkilendirme al
@@ -57,6 +58,10 @@ const getUserCheck = async (req, res) => {
           values: getRows.data.values[i], // Öğrenciye ait tüm değerler
         });
       }
+    }
+    if(matchingStudents.length === 0) {
+        res.status(200).json({ success: false, message: "Öğrenci bulunamadı." });
+        return;
     }
     res.status(200).json({ success: true, data: matchingStudents });
 

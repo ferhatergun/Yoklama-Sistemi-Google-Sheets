@@ -23,7 +23,11 @@ export default function Person({ person }: any) {
           Seç
         </a>
       </td>
-      <CustomModal openModal={openModal} setOpenModal={setOpenModal} person={person} />
+      <CustomModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        person={person}
+      />
     </tr>
   );
 }

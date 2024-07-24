@@ -1,44 +1,46 @@
-import { Button, Modal } from "flowbite-react";
+import { Modal } from "flowbite-react";
 import { useState } from "react";
 import { GoNumber } from "react-icons/go";
 import { CustomModalProps } from "../types";
 import PostAttendance from "../api/PostAttendance";
 import toast from "react-hot-toast";
 
-
-export function CustomModal({ openModal, setOpenModal ,person}: CustomModalProps) {
+export function CustomModal({
+  openModal,
+  setOpenModal,
+  person,
+}: CustomModalProps) {
   const [number, setNumber] = useState<number>();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (number && number.toString().length === 3) { // Eğer numara 3 haneli ise
-      if(person.values[0] === number.toString()){ // Eğer numara eşleşiyor ise
-      toast.promise(PostAttendance(Number(person.index)), { 
-        loading: "Yoklama alınıyor...",
-        success: "Yoklama alındı",
-        error: "Yoklama alınamadı",
-      }).then(() => {
-        setOpenModal(false);
-      })
+    e.preventDefault();
+    if (number && number.toString().length === 3) {
+      // Eğer numara 3 haneli ise
+      if (person.values[0] === number.toString()) {
+        // Eğer numara eşleşiyor ise
+        toast
+          .promise(PostAttendance(Number(person.index)), {
+            loading: "Yoklama alınıyor...",
+            success: "Yoklama alındı",
+            error: "Yoklama alınamadı",
+          })
+          .then(() => {
+            setOpenModal(false);
+          });
+      } else {
+        toast.error("Öğrenci Numarası Hatalı !");
+      }
     }
-    else{
-      toast.error("Öğrenci Numarası Hatalı !")
-    }
-  }
+  };
 
-    
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {// max 3 karakter alması için
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // max 3 karakter alması için
     const inputValue = e.target.value;
     // İçeriği sadece ilk üç karakter ile sınırla
     const newValue = inputValue.slice(0, 3);
     // Yeni değeri ayarla
     setNumber(Number(newValue));
   };
-
- 
-  
 
   return (
     <>
@@ -52,15 +54,19 @@ export function CustomModal({ openModal, setOpenModal ,person}: CustomModalProps
         <Modal.Body>
           <div className="space-y-6">
             <div>
-              İsim : {person.values[1]}<br />
-              Soyisim :  {person.values[2].substring(0, 2) + "***"} <br />
+              İsim : {person.values[1]}
+              <br />
+              Soyisim : {person.values[2].substring(0, 2) + "***"} <br />
               Öğrenci Numarası : {person.values[0].substring(0, 3) + "******"}
             </div>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
               Yoklamayı Tamamlamak için Öğrenci Numaranızın son 3 hanesini
               giriniz.
             </p>
-            <form className="max-w-80 mx-auto flex flex-col items-center" onSubmit={handleSubmit}>
+            <form
+              className="max-w-80 mx-auto flex flex-col items-center"
+              onSubmit={handleSubmit}
+            >
               <div className="relative w-full">
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                   <GoNumber color="gray" />

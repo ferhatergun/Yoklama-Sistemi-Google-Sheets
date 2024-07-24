@@ -1,8 +1,7 @@
 const { google } = require("googleapis");
 
-
 const getAuth = async () => {
-  const spreadsheetId = process.env.SPREAD_SHEET_ID  // Google Sheets belge kimliği
+  const spreadsheetId = process.env.SPREAD_SHEET_ID; // Google Sheets belge kimliği
   const auth = new google.auth.GoogleAuth({
     keyFile: "yoklama-sistemi-key.json",
     scopes: "https://www.googleapis.com/auth/spreadsheets",
@@ -16,8 +15,8 @@ const getAuth = async () => {
 
   return {
     client,
-    googleSheets
+    googleSheets,
   };
-}
+};
 
 module.exports = getAuth;

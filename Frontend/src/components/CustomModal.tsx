@@ -16,7 +16,7 @@ export function CustomModal({
     e.preventDefault();
     if (number && number.toString().length === 3) {
       // Eğer numara 3 haneli ise
-      if (person.values[0] === number.toString()) {
+      if (person.values[0].slice(-3) === number.toString()) {
         // Eğer numara eşleşiyor ise
         toast
           .promise(PostAttendance(Number(person.index)), {
